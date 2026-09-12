@@ -1,6 +1,9 @@
 #ifndef FED_INPUT_H
 #define FED_INPUT_H
 
-void Fed_Input_processKeyPress();
+typedef struct App App;
+
+void Fed_Input_moveCursor(App *app, char key);
+void Fed_Input_processKeyPress(App *app);
 
 #endif

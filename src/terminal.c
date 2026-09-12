@@ -1,4 +1,5 @@
 #include "terminal.h"
+
 #include "output.h"
 
 #include <stdlib.h>

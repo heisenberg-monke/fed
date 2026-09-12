@@ -5,6 +5,8 @@
 
 typedef struct App
 {
+    int cx;
+    int cy;
     int screenRows;
     int screenCols;
     struct termios original;

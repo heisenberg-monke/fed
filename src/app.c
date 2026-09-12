@@ -5,7 +5,7 @@
 
 #include <stdlib.h>
 
-static App g_app;
+static App g_app = {0};
 
 void Fed_App_Init()
 {
@@ -28,6 +28,6 @@ void Fed_App_run()
     while(true)
     {
         Fed_Output_refreshScreen(&g_app);
-        Fed_Input_processKeyPress();
+        Fed_Input_processKeyPress(&g_app);
     }
 }
