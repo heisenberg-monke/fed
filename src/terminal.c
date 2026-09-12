@@ -1,8 +1,10 @@
 #include "terminal.h"
+#include "output.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <errno.h>
 #include <unistd.h>
 #include <termios.h>
 
@@ -10,6 +12,7 @@ struct termios g_original;
 
 void Fed_Terminal_failure(const char *s)
 {
+    Fed_Output_clearScreen();
     fprintf(stderr, "[ERROR] ");
     perror(s);
     exit(EXIT_FAILURE);
@@ -38,4 +41,18 @@ void Fed_Terminal_disableRawMode()
 {
     if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_original) == -1)
         Fed_Terminal_failure("Failed to set disable raw mode");
+}
+
+char Fed_Terminal_readKey()
+{
+    int nRead;
+    char c;
+
+    while((nRead = read(STDIN_FILENO, &c, 1)) != 1)
+    {
+        if(nRead == -1 && errno != EAGAIN)
+            Fed_Terminal_failure("Failed to read input");
+    }
+
+    return c;
 }
