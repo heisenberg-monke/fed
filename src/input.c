@@ -10,23 +10,23 @@
 
 #define CTRL_KEY(k) ((k) & 0x1f)
 
-void Fed_Input_moveCursor(App *app, char key)
+void Fed_Input_moveCursor(App *app, int key)
 {
     switch(key)
     {
-        case 'a':
+        case ARROW_LEFT:
             --app->cx;
             break;
 
-        case 'd':
+        case ARROW_RIGHT:
             ++app->cx;
             break;
 
-        case 'w':
+        case ARROW_UP:
             --app->cy;
             break;
 
-        case 's':
+        case ARROW_DOWN:
             ++app->cy;
             break;
     }
@@ -37,7 +37,7 @@ void Fed_Input_moveCursor(App *app, char key)
 
 void Fed_Input_processKeyPress(App *app)
 {
-    char c = Fed_Terminal_readKey();
+    int c = Fed_Terminal_readKey();
 
     switch(c)
     {
@@ -45,10 +45,24 @@ void Fed_Input_processKeyPress(App *app)
             Fed_Output_clearScreen();
             exit(0);
 
-        case 'w':
-        case 's':
-        case 'a':
-        case 'd':
+        case HOME_KEY:
+            app->cx = 0;
+            break;
+
+        case END_KEY:
+            app->cx = app->screenCols - 1;
+            break;
+
+        case PAGE_UP:
+        case PAGE_DOWN: {
+            for(int times = app->screenRows; times; times--)
+                Fed_Input_moveCursor(app, c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
+        } break;
+
+        case ARROW_UP:
+        case ARROW_DOWN:
+        case ARROW_LEFT:
+        case ARROW_RIGHT:
             Fed_Input_moveCursor(app, c);
     }
 }

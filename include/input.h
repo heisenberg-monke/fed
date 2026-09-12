@@ -3,7 +3,7 @@
 
 typedef struct App App;
 
-void Fed_Input_moveCursor(App *app, char key);
+void Fed_Input_moveCursor(App *app, int key);
 void Fed_Input_processKeyPress(App *app);
 
 #endif
