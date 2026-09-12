@@ -1,8 +1,7 @@
-#include <stdio.h>
+#include "app.h"
 
 int main()
 {
-    printf("Hello, world.\n");
-    
+    Fed_App_run();
     return 0;
 }
