@@ -3,8 +3,11 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+
+#ifdef FED_UTILS_C
 #include <stdarg.h>
 #include <stdio.h>
+#endif
 
 #include <string.h>
 
@@ -67,12 +70,18 @@ size_t str_append_f(String *str, const char *fmt, ...);
 #define STR_PUSH_CSTR(str, cStr) VEC_PUSH_ARR(str, cStr, sizeof(cStr) - 1)
 #define STR_PUSH_F(str, ...) str_append_f(str, __VA_ARGS__)
 
-#define CLAMP(x, a, b)  \
-    do {                \
-        if((x) < (a))   \
-            (x) = (a);  \
-        if((x) > (b))   \
-            (x) = (b);  \
+#define STR_MOVE(dst, src)      \
+    do {                        \
+        *dst = *src;            \
+        *src = (String){0};     \
+    } while(0)
+
+#define CLAMP(x, a, b)      \
+    do {                    \
+        if((x) < (a))       \
+            (x) = (a);      \
+        else if((x) > (b))  \
+            (x) = (b);      \
     } while(0)
 
 #ifdef FED_UTILS_C

@@ -31,8 +31,15 @@ void Fed_Input_moveCursor(App *app, int key)
             break;
     }
 
-    CLAMP(app->cx, 0, app->screenCols - 1);
-    CLAMP(app->cy, 0, app->screenRows - 1);
+    if (app->rows.size == 0)
+    {
+        app->cx = 0;
+        app->cy = 0;
+        return;
+    }
+
+    CLAMP(app->cy, 0, (int)app->rows.size - 1);
+    CLAMP(app->cx, 0, (int)app->rows.data[app->cy].size);
 }
 
 void Fed_Input_processKeyPress(App *app)
@@ -50,7 +57,7 @@ void Fed_Input_processKeyPress(App *app)
             break;
 
         case END_KEY:
-            app->cx = app->screenCols - 1;
+            app->cx = (int)app->rows.data[app->cy].size;
             break;
 
         case PAGE_UP:

@@ -1,4 +1,5 @@
 #include "app.h"
+#include "file.h"
 #include "input.h"
 #include "output.h"
 #include "terminal.h"
@@ -20,10 +21,11 @@ void Fed_App_shutdown()
     Fed_Terminal_disableRawMode(&g_app.original);
 }
 
-void Fed_App_run()
+void Fed_App_run(const char *fileName)
 {
     Fed_Terminal_enableRawMode(&g_app.original);
     Fed_App_Init();
+    Fed_File_open(&g_app, fileName);
 
     while(true)
     {
